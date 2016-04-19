@@ -24,19 +24,23 @@ public class GetUserNeighbours {
 	 * @param args
 	 * @throws IOException
 	 */
-	public static final String dir = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";//ext1000_Mute_GenderPre
-	public static final String _0srcfile = "UidInfo_friends0.txt";  //0层用户的关系数据
-	public static final String _1srcfile = "UidInfo_follows1.txt"; //1层用户的关系数据
-	public static final String resfile = "UidInfo_follows1.txt"; //1层用户的关系数据
+	private static final String dir = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";//ext1000_Mute_GenderPre
+	private static final String _0srcfile = "UidInfo_friends0.txt";  //0层用户的关系数据
+	private static final String _1srcfile = "UidInfo_follows1.txt"; //1层用户的关系数据
+	private static final String resfile = "Feature_UserInfo\\UserIdNeighbours_cFri.txt"; //1层用户的关系数据
 	private static final int threshold = 2;
+	private static final boolean isV = false;//only v fri
 	public static void main(String args[]) throws IOException{
 		Set<String> _0sids = new HashSet<String>(3000);
 		GetInfo.getSet(dir+"ExpandID0.txt", _0sids);
 		Set<String> _1sids = new HashSet<String>(3000);
-		
-		Set<String> vids = new HashSet<String>(600000);
-		GetInfo.getSet(dir+"Config\\Dict_VFri.txt", vids);
-		
+
+		Set<String> vids = null;
+		if(isV){
+			vids = new HashSet<String>(600000);
+			GetInfo.getSet(dir+"Config\\Dict_VFri.txt", vids);
+		}
+
 		Map<String, StringBuffer> rel_map1 = new HashMap<String, StringBuffer>(0xff);
 		getUserFriends(rel_map1,_0sids,vids,_1sids,dir+_0srcfile);
 		Map<String, StringBuffer> rel_map2 = new HashMap<String, StringBuffer>(0xffff);
