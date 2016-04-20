@@ -13,12 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
 import net.sf.json.JSONObject;
-import utils.GetInfo;
 public class GetUserNeighbours {
 	/**
 	 * 获取ids用户集的邻居（如有共同粉丝/关注的人）   
@@ -27,35 +25,36 @@ public class GetUserNeighbours {
 	 * @param args
 	 * @throws IOException
 	 */
-	public static final String dir = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";//ext1000_Mute_GenderPre
-	public static final String _0srcfile = "UidInfo_friends0.txt";  //0层用户的关系数据
-	public static final String _1srcfile = "UidInfo_follows1.txt"; //1层用户的关系数据
-	private static final String resfile = "Feature_UserInfo\\UserIdNeighboursIn1_c1Fri.txt"; //1层用户的关系数据
-	private static final int threshold = 1;
+	public static final String dir = "/home/zps/sina2333/";//ext1000_Mute_GenderPre
+	public static final String _0srcfile = "UidInfo_follows0.txt";  //0层用户的关系数据
+	public static final String _1srcfile = "UidInfo_friends1.txt"; //1层用户的关系数据
+	private static final String resfile = "Feature_UserInfo/UserIdNeighbours_c"; //1层用户的关系数据
+	private static final String resfile_t = "Fol.txt"; //1层用户的关系数据
+	private static final Byte[] thresholds = {1,2,3,5,8};
 	private static final boolean isV = false;//only v fri
 	public static void main(String args[]) throws IOException{
-		Set<String> _0sids = new HashSet<String>(3000);
-		GetInfo.getSet(dir+"ExpandID0.txt", _0sids);
-		Set<String> _1sids = new HashSet<String>(600000);
+		Set<Long> _0sids = new HashSet<Long>(3000);
+		getSet(dir+"ExpandID0.txt", _0sids);
+		Set<Long> _1sids = new HashSet<Long>(600000);
 
-		Set<String> vids = null;
+		Set<Long> vids = null;
 		if(isV){
-			vids = new HashSet<String>(600000);
-			GetInfo.getSet(dir+"Config\\Dict_VFri.txt", vids);
+			vids = new HashSet<Long>(600000);
+			getSet(dir+"Config\\Dict_VFri.txt", vids);
 		}
-		
-		Map<String, StringBuffer> rel_map1 = new HashMap<String, StringBuffer>(0xff);
+
+		Map<Long, Set<Long>> rel_map1 = new HashMap<Long, Set<Long>>(0xff);
 		getUserFriends(rel_map1,_0sids,vids,_1sids,dir+_0srcfile);
 		System.out.println(_1sids.size());
-		Map<String, StringBuffer> rel_map2 = new HashMap<String, StringBuffer>(_1sids.size()<<1);
+		Map<Long, Set<Long>> rel_map2 = new HashMap<Long, Set<Long>>(_1sids.size()<<1);
 		getUserFriends(rel_map2,_1sids,null,null,dir+_1srcfile);
 		System.out.println(rel_map2.size());
 
 		//help gc
 		_1sids = null;
 		vids = null;
-		
-		if(threshold<=1){getNeighbour1(_0sids,rel_map1,rel_map2,dir+resfile);}
+
+		if(thresholds.length==1&&thresholds[0]==1){getNeighbour1(_0sids,rel_map1,rel_map2,dir+resfile);}
 		else{getNeighbour2(_0sids,rel_map1,rel_map2,dir+resfile);}
 
 	}
@@ -67,29 +66,27 @@ public class GetUserNeighbours {
 	 * @param resfile 
 	 * @throws IOException 
 	 */
-	private static void getNeighbour1(Set<String> _0sids,
-			Map<String, StringBuffer> rel_map1,
-			Map<String, StringBuffer> rel_map2, String resfile) throws IOException {
+	private static void getNeighbour1(Set<Long> _0sids,
+			Map<Long, Set<Long>> rel_map1,
+			Map<Long, Set<Long>> rel_map2, String resfile) throws IOException {
 
 		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(resfile)));
-		Set<String> neighbours_ids = new TreeSet<String>();
+		Set<Long> neighbours_ids = new TreeSet<Long>();
 
-		StringTokenizer st0 = null,st1 = null;
-		String fri_id = null;
-		for(String sid : _0sids){//对每个0层用户
+		Set<Long> fri_id_set = null,fri_fri_id_set = null;
+		for(long sid : _0sids){//对每个0层用户
 			bw.write(sid+"\t");
-			st0 = new StringTokenizer(rel_map1.get(sid).toString().intern(),",");
-			while(st0.hasMoreTokens()){//对0层用户的每个朋友
-				fri_id = st0.nextToken().intern();
+			fri_id_set = rel_map1.get(sid);
+			for(long fri_id:fri_id_set){//对0层用户的每个朋友
 				if(!rel_map2.containsKey(fri_id))continue;
-				st1 = new StringTokenizer(rel_map2.get(fri_id).toString().intern(),",");
-				while(st1.hasMoreTokens()){//对0层用户的每个朋友的关注
-					neighbours_ids.add(st1.nextToken().intern());
+				fri_fri_id_set = rel_map2.get(fri_id);
+				for(long fri_fir_id : fri_fri_id_set){//对0层用户的每个朋友的关注
+					neighbours_ids.add(fri_fir_id);
 				}
 			}
-			Iterator<String> it = neighbours_ids.iterator();
+			Iterator<Long> it = neighbours_ids.iterator();
 			while(it.hasNext()){
-				String entry = it.next();
+				long entry = it.next();
 				bw.write(entry+"\t");
 			}
 			bw.write("\r\n");
@@ -106,37 +103,41 @@ public class GetUserNeighbours {
 	 * @param resfile 
 	 * @throws IOException 
 	 */
-	private static void getNeighbour2(Set<String> _0sids,
-			Map<String, StringBuffer> rel_map1,
-			Map<String, StringBuffer> rel_map2, String resfile) throws IOException {
+	private static void getNeighbour2(Set<Long> _0sids,
+			Map<Long, Set<Long>> rel_map1,
+			Map<Long, Set<Long>> rel_map2, String resfile) throws IOException {
 
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(resfile)));
-		Map<String,Integer> neighbours_ids = new TreeMap<String,Integer>();
-		StringTokenizer st0 = null,st1 = null;
-		String fri_id=null,nei_id = null;
-		for(String sid : _0sids){//对每个0层用户
-			bw.write(sid+"\t");
-			st0 = new StringTokenizer(rel_map1.get(sid).toString().intern(),",");
-			while(st0.hasMoreTokens()){//对0层用户的每个朋友
-				fri_id = st0.nextToken().intern();
+		BufferedWriter[] bws = new BufferedWriter[thresholds.length];
+		for(int i=0;i<thresholds.length;i++){
+			bws[i] = new BufferedWriter(new FileWriter(new File(resfile+thresholds[i]+resfile_t)));
+		}
+
+		Map<Long,Byte> neighbours_ids = new TreeMap<Long,Byte>();
+		Set<Long> fri_id_set = null,fri_fri_id_set = null;
+		for(long sid : _0sids){//对每个0层用户
+			for(int i=0;i<thresholds.length;i++){bws[i].write(sid+"\t");}
+			fri_id_set = rel_map1.get(sid);
+			for(long fri_id:fri_id_set){//对0层用户的每个朋友
 				if(!rel_map2.containsKey(fri_id))continue;
-				st1 = new StringTokenizer(rel_map2.get(fri_id).toString().intern(),",");
-				while(st1.hasMoreTokens()){//对0层用户的每个朋友的关注
-					nei_id = st1.nextToken().intern();
-					if(neighbours_ids.containsKey(nei_id)){neighbours_ids.put(nei_id, neighbours_ids.get(nei_id)+1);}
-					else{neighbours_ids.put(nei_id,1);}
+				fri_fri_id_set = rel_map2.get(fri_id);
+				for(long fri_fir_id : fri_fri_id_set){//对0层用户的每个朋友的关注
+					if(neighbours_ids.containsKey(fri_fir_id)){
+						byte c = neighbours_ids.get(fri_fir_id);
+						neighbours_ids.put(fri_fir_id, c<127?(byte)(c+1):c);
+					}else{neighbours_ids.put(fri_fir_id, (byte)1);}
 				}
 			}
-			Iterator<Entry<String, Integer>> it = neighbours_ids.entrySet().iterator();
+			Iterator<Entry<Long, Byte>> it = neighbours_ids.entrySet().iterator();
 			while(it.hasNext()){
-				Entry<String, Integer> entry = it.next();
-				if(entry.getValue()>=threshold){bw.write(entry.getKey()+"\t");}
+				Entry<Long, Byte> entry = it.next();
+				for(int i=0;i<thresholds.length;i++){
+					if(entry.getValue()>=thresholds[i]){bws[i].write(entry.getKey()+"\t");}
+				}
 			}
-			bw.write("\r\n");
+			for(int i=0;i<thresholds.length;i++){bws[i].write("\r\n");}
 			neighbours_ids.clear();
 		}
-		bw.flush();
-		bw.close();
+		for(int i=0;i<thresholds.length;i++){bws[i].flush();bws[i].close();}
 	}
 	/**
 	 * 用户获取朋友数
@@ -147,35 +148,41 @@ public class GetUserNeighbours {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("unchecked")
-	private static void getUserFriends(Map<String, StringBuffer> rel_map,Set<String> sids,Set<String> fids,Set<String> _1sids,String srcfile) throws IOException {
+	private static void getUserFriends(Map<Long, Set<Long>> rel_map,Set<Long> sids,Set<Long> fids,Set<Long> _1sids,String srcfile) throws IOException {
 		//GetInfo.getSetMap(srcfile, id_rel_map, "id", "uids");
 		File f = new File(srcfile);
 		BufferedReader b = new BufferedReader(new FileReader(f));
-		String line = "",id="";List<String> uids = null;
+		String line = "";List<String> uids = null;
+		long id = 0;
 		JSONObject json = null;
 		while((line = b.readLine())!=null){
 			json = JSONObject.fromObject(line);
-			id = json.getString("id");
+			id =Long.parseLong(json.getString("id"));
 			if(!sids.contains(id))continue;
 			uids = (List<String>) json.get("uids");
-			StringBuffer sb = null;
+			Set<Long> sb = null;
 			if(rel_map.containsKey(id)){
 				sb = rel_map.get(id);
 			}else{
-				sb = new StringBuffer();
+				sb = new HashSet<Long>(uids.size());
 			}
 
 			if(fids==null){//对朋友集合不做限制
-				for(String uid : uids){sb.append(uid+",");}
-				if(_1sids!=null){_1sids.addAll(uids);}
+				if(_1sids==null){//不将朋友加入集合_1sids中
+					for(String uid : uids){sb.add(Long.parseLong(uid));}
+				}else{//将朋友加入集合_1sids中
+					for(String uid : uids){long luid = Long.parseLong(uid);sb.add(luid);_1sids.add(luid);}
+				}
 			}else{//对朋友集合进行限制
 				if(_1sids==null){//不将朋友加入集合_1sids中
 					for(String uid : uids){
-						if(fids.contains(uid)){sb.append(uid+",");}
+						long luid = Long.parseLong(uid);
+						if(fids.contains(luid)){sb.add(luid);}
 					}
 				}else{//将朋友加入集合_1sids中
 					for(String uid : uids){
-						if(fids.contains(uid)){sb.append(uid+",");_1sids.add(uid);}
+						long luid = Long.parseLong(uid);
+						if(fids.contains(luid)){sb.add(luid);_1sids.add(luid);}
 					}
 				}
 			}
@@ -183,5 +190,18 @@ public class GetUserNeighbours {
 		}
 		b.close();
 	}
-
+	
+	private static void getSet(String filename, Set<Long> set) throws IOException {
+		File r=new File(filename);
+		BufferedReader br=new BufferedReader(new FileReader(r));
+		String line="";
+		while((line=br.readLine())!=null)
+		{
+			if(!(line.equals(""))){
+				String uid = line.split("\\s+")[0];
+				set.add(Long.parseLong(uid));
+			}
+		}
+		br.close();
+	}
 }
