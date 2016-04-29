@@ -13,25 +13,22 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.TreeSet;
 
 import utils.GetInfo;
 import utils.SaveInfo;
 
 public class Temp {
 	//LOFTER客户端 3065
-	public static String PATH = "D:\\Project_DataMinning\\Data\\Sina_res\\";
+	public static String PATH = "E:\\DataSource\\Flickr\\";//"D:\\Project_DataMinning\\Data\\Sina_res\\";
 	public static void main(String args[]) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		//getDifferentId();
-		readFile();
+		//readFile();
 		/*lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\ExpandID1.txt");
 		lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\ExpandID1_fri.txt");
 		lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\UserInfo1.txt");*/
 		//lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\Feature_UserInfo\\UserIdTag_01.txt");
-		/*1333810
-		569674
-		838009
-		505058*/
-		
+
 		//544845<=569674+2223
 		//lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\Feature_UserInfo\\UserIdFriends_full.txt");
 		//lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\Vector\\2223_Win500_L100_Fri_vector_full.txt");
@@ -39,6 +36,27 @@ public class Temp {
 
 		/*File src = new File("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\UidInfo_follows1.txt");
 		SaveInfo.fileCopy(src , "D:\\Project_DataMinning\\Data\\Sina_res\\", false);*/
+		
+		MergeFile("UserID//all.txt","UserID//1.txt","UserID//2.txt","UserID//3.txt","UserID//4.txt","UserID//5.txt");
+	}
+
+	private static void MergeFile(String resfile, String ... srcfiles) throws IOException {
+		Set<String> lines = new TreeSet<String>();
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(PATH+resfile)));
+		String line = null;
+		for(String srcfile:srcfiles){
+			BufferedReader br = new BufferedReader(new FileReader(new File(PATH+srcfile)));
+			while(null!=(line=br.readLine())){
+				//bw.write(line+"\r\n");
+				lines.add(line);
+			}
+			br.close();
+		}
+		for(String li : lines){
+			bw.write(li+"\r\n");
+		}
+		bw.flush();
+		bw.close();
 	}
 
 	private static void lineCountforFile(String filename) throws IOException {

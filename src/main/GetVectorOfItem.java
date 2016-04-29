@@ -6,10 +6,14 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import utils.GetInfo;
 import utils.SaveInfo;
@@ -17,7 +21,7 @@ import utils.SaveInfo;
 public class GetVectorOfItem {
 
 
-	static String PATH = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";//Sina_NLPIRandTHUext1000_Mute_GenderPre\\";//
+	static String PATH = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";//"E:\\DataSource\\Youtube\\";////Sina_NLPIRandTHUext1000_Mute_GenderPre\\";//
 	static int ignore = 2; //读取vector文件时（loadWordVec）时忽略前面几行？word2vec生成的2行，line生成的1行
 	public static void main(String[] args) throws IOException {
 		/*================================================================================================================*/
@@ -46,9 +50,9 @@ public class GetVectorOfItem {
 		//Tag
 		/*avgVec(PATH+"Feature_UserInfo\\UserIdTag.txt",PATH+"Vector\\2223_Win8_L100_Tag_fri_vector.txt",
 				PATH+"Feature_UserInfo\\TagAvgVec_fri_feature.txt");*/
-		avgVec(PATH+"Feature_UserInfo\\UserIdTag.txt",PATH+"Vector\\2223_Win8_L100_Tag_vfri_vector.txt",
-				PATH+"Feature_UserInfo\\TagAvgVec_vfri_feature.txt");
-		
+		/*avgVec(PATH+"Feature_UserInfo\\UserIdTag.txt",PATH+"Vector\\2223_Win8_L100_Tag_vfri_vector.txt",
+				PATH+"Feature_UserInfo\\TagAvgVec_vfri_feature.txt");*/
+
 		//Src
 		/*avgVec(PATH+"Feature_UserInfo\\UserIdSrc.txt",PATH+"Vector\\2223_Win500_L100_Src_fri_vector.txt",
 				PATH+"Feature_Src\\SrcAvgVec_fri_feature.txt");
@@ -60,29 +64,134 @@ public class GetVectorOfItem {
 		length = loadWordVecFromFeature(wordVec, PATH+"Feature_Src\\SrcAvgVec_vfri_feature.txt");
 		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriSrcAvgVec_vfri_feature.txt");
 		wordVec.clear();*/
-		
+
 		//Fri
 		//根据用户的向量（w2v生成），得到用户的特征
 		//根据用户的朋友，以及朋友的向量（W2V训练生成），得到用户特征向量（朋友求平均）
-		/*length = loadWordVec(wordVec, PATH+"Vector\\2223_Win500_L100_Fri_fri_vector.txt");
-		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\FriVec_fri_feature.txt");
-		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec, length,PATH+"Feature_Relation\\FriAvgVec_fri_feature.txt");
+		/*length = loadWordVec(wordVec, PATH+"Vector\\2223_Win500_L100_S-Fri_fri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\S-FriVec_fri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec, length,PATH+"Feature_Relation\\S-FriAvgVec_fri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win500_L100_S-VFri_vfri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\S-VFriVec_vfri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec, length,PATH+"Feature_Relation\\S-VFriAvgVec_vfri_feature.txt");
 		wordVec.clear();*/
-		/*length = loadWordVec(wordVec, PATH+"Vector\\2223_Win500_L100_VFri_vfri_vector.txt");
-		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\VFriVec_vfri_feature.txt");
-		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec, length,PATH+"Feature_Relation\\VFriAvgVec_vfri_feature.txt");
+		/*length = loadWordVec(wordVec, PATH+"Vector\\2223_Win10_L100_Fri_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec, length,PATH+"Feature_Relation\\FriAvgVec_win10_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win10_L100_VFri_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec, length,PATH+"Feature_Relation\\VFriAvgVec_win10_feature.txt");
 		wordVec.clear();*/
-		
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_hn_Fri_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec, length,PATH+"Feature_Relation\\FriAvgVec_win200_hn_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_hn_VFri_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec, length,PATH+"Feature_Relation\\VFriAvgVec_win200_hn_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_iter30_Fri_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec, length,PATH+"Feature_Relation\\FriAvgVec_win200_iter30_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_iter30_VFri_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec, length,PATH+"Feature_Relation\\VFriAvgVec_win200_iter30_feature.txt");
+		wordVec.clear();
+
 		//根据用户的向量（Line生成），得到用户的特征
 		//根据用户的朋友，以及朋友的向量（Line生成），得到用户特征向量（朋友求平均）
 		/*wordVec.clear();
 		length = loadWordVec(wordVec, PATH+"Line\\2333_s10000n5d128\\vec_all.txt");
 		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\FriVec_Lines10000n5d128_feature.txt");
 		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_Lines10000n5d128_feature.txt");*/
-
 		
+		/*vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\flickr-links_vec_1st.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d1281st_feature.txt");
+		vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\flickr-links_vec_2nd.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d1282nd_feature.txt");
+		vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\flickr-links_vec_all.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d128all_feature.txt");
+		vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\youtube-links_vec_1st.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d1281st_feature.txt");
+		vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\youtube-links_vec_2nd.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d1282nd_feature.txt");
+		vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\youtube-links_vec_all.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d128all_feature.txt");
+		*/
+		
+		//Fol
+		/*length = loadWordVec(wordVec, PATH+"Vector\\2223_Win10_L100_Fol_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFollows.txt",wordVec, length,PATH+"Feature_Relation\\FolAvgVec_win10_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win10_L100_VFol_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFollows.txt",wordVec, length,PATH+"Feature_Relation\\VFolAvgVec_win10_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Fol_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFollows.txt",wordVec, length,PATH+"Feature_Relation\\FolAvgVec_win200_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_VFol_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFollows.txt",wordVec, length,PATH+"Feature_Relation\\VFolAvgVec_win200_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win500_L100_Fol_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdFollows.txt",wordVec, length,PATH+"Feature_Relation\\FolAvgVec_win500_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win500_L100_VFol_vector.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdVFollows.txt",wordVec, length,PATH+"Feature_Relation\\VFolAvgVec_win500_feature.txt");
+		wordVec.clear();*/
+
+		//Neighbour
+		/*vec2Feature(PATH+"ExpandID0.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c1FolAndFri_vector.txt",PATH+"Feature_Relation\\NeiVec_win200c1FolAndFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c1FolAndFri.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c1FolAndFri_vector.txt",PATH+"Feature_Relation\\NeiAvgVec_win200c1FolAndFri_feature.txt");
+		vec2Feature(PATH+"ExpandID0.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2FolOrFri_vector.txt",PATH+"Feature_Relation\\NeiVec_win200c2FolOrFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c2FolOrFri.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2FolOrFri_vector.txt",PATH+"Feature_Relation\\NeiAvgVec_win200c2FolOrFri_feature.txt");
+		vec2Feature(PATH+"ExpandID0.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2FolAndFri_vector.txt",PATH+"Feature_Relation\\NeiVec_win200c2FolAndFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c2FolAndFri.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2FolAndFri_vector.txt",PATH+"Feature_Relation\\NeiAvgVec_win200c2FolAndFri_feature.txt");
+		vec2Feature(PATH+"ExpandID0.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2Fol_vector.txt",PATH+"Feature_Relation\\NeiVec_win200c2Fol_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c2Fol.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2Fol_vector.txt",PATH+"Feature_Relation\\NeiAvgVec_win200c2Fol_feature.txt");
+		vec2Feature(PATH+"ExpandID0.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2Fri_vector.txt",PATH+"Feature_Relation\\NeiVec_win200c2Fri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c2Fri.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c2Fri_vector.txt",PATH+"Feature_Relation\\NeiAvgVec_win200c2Fri_feature.txt");
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c3FolOrFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c3FolOrFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c3FolOrFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c3FolOrFri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c3FolAndFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c3FolAndFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c3FolAndFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c3FolAndFri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c3Fol_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c3Fol_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c3Fol.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c3Fol_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c3Fri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c3Fri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c3Fri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c3Fri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c5FolOrFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c5FolOrFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c5FolOrFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c5FolOrFri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c5FolAndFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c5FolAndFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c5FolAndFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c5FolAndFri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c5Fol_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c5Fol_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c5Fol.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c5Fol_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c5Fri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c5Fri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c5Fri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c5Fri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c8FolOrFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c8FolOrFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c8FolOrFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c8FolOrFri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c8FolAndFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c8FolAndFri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c8FolAndFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c8FolAndFri_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c8Fol_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c8Fol_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c8Fol.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c8Fol_feature.txt");
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c8Fri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c8Fri_feature.txt");
+		avgVec(PATH+"Feature_UserInfo\\UserIdNeighbours_c8Fri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c8Fri_feature.txt");
+		wordVec.clear();*/
+
 		//Fri+Tag/Src
-		avgList(PATH+"Feature_UserInfo\\UserIdTag_fri.txt", PATH+"Vector\\2223_Win8_L100_Tag_fri_vector.txt",PATH+"Vector\\2223_Win8_L100_TagAvg_fri_vector.txt");
+		/*avgList(PATH+"Feature_UserInfo\\UserIdTag_fri.txt", PATH+"Vector\\2223_Win8_L100_Tag_fri_vector.txt",PATH+"Vector\\2223_Win8_L100_TagAvg_fri_vector.txt");
 		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_TagAvg_fri_vector.txt");
 		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriTagAvgVec_fri_feature.txt");
 		wordVec.clear();
@@ -90,7 +199,7 @@ public class GetVectorOfItem {
 		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_TagAvg_vfri_vector.txt");
 		avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriTagAvgVec_vfri_feature.txt");
 		wordVec.clear();
-		/*avgList(PATH+"Feature_UserInfo\\UserIdSrc.txt", PATH+"Vector\\2223_Win8_L100_Src_fri_vector.txt",PATH+"Vector\\2223_Win8_L100_SrcAvg_fri_vector.txt");
+		avgList(PATH+"Feature_UserInfo\\UserIdSrc.txt", PATH+"Vector\\2223_Win8_L100_Src_fri_vector.txt",PATH+"Vector\\2223_Win8_L100_SrcAvg_fri_vector.txt");
 		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_SrcAvg_fri_vector.txt");
 		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriSrcAvgVec_fri_feature.txt");
 		wordVec.clear();
@@ -188,7 +297,6 @@ public class GetVectorOfItem {
 		String line = null;
 		for(int i=0;i<ignore;i++){br.readLine();}
 		while ((line = br.readLine()) != null) {
-
 			if(line.split("\t", 2).length>1){
 				key = line.split("\t",2)[0];
 				ss = line.split("\t", 2)[1].split("\\s+");
@@ -291,16 +399,15 @@ public class GetVectorOfItem {
 
 	}
 
-	// 将用户每个标签的词向量通过求平均的方式生成可输入SVM的用户向量
+	// 词向量已经存放在map中。将用户每个标签的词向量通过求平均的方式生成可输入SVM的用户向量
 	public static void avgVec(String wordFile, Map<String, float[]> wordVec, int length, String avgVecFile) throws IOException {
-		FileReader frtag = new FileReader(wordFile);
-		BufferedReader brtag = new BufferedReader(frtag);
+		BufferedReader br = new BufferedReader(new FileReader(new File(wordFile)));
 		BufferedWriter fw = new BufferedWriter(new FileWriter(new File(avgVecFile)));
 
 		String tline = null;
 		String[] ss = null;
 		String uid = null;
-		while ((tline = brtag.readLine()) != null) {
+		while ((tline = br.readLine()) != null) {
 			ss = tline.split("\t", 2)[1].split("\t");
 			uid = tline.split("\t",2)[0];
 			if (ss.length==0) {
@@ -319,12 +426,82 @@ public class GetVectorOfItem {
 				fw.write("\r\n");
 			}
 		}
-		brtag.close();
+		br.close();
 		fw.flush();
 		fw.close();
-		frtag.close();
 	}
+
+	// 将用户每个标签的词向量通过求平均的方式生成可输入SVM的用户向量
 	public static void avgVec(String wordFile, String wordVecFile, String avgVecFile) throws IOException {
+		//Map<String, float[]> wordVec,
+		BufferedReader wbr = new BufferedReader(new FileReader(new File(wordFile)));
+		Map<Long, long[]> user_word_map = new HashMap<Long, long[]>(3000);
+		Map<Long, Integer> user_count_map = new HashMap<Long, Integer>(3000);
+		String line = null;
+		long uid;
+		int i;
+		StringTokenizer st = null;
+		while ((line = wbr.readLine()) != null) {
+			st = new StringTokenizer(line,"\t");
+			uid = Long.parseLong(st.nextToken().intern());
+			long[] user_word = new long[st.countTokens()];
+			i = 0;
+			while(st.hasMoreTokens()){//对0层用户的每个朋友
+				String tmp = st.nextToken().intern();
+				user_word[i++] = Long.parseLong(tmp);
+			}
+			user_word_map.put(uid, user_word);
+			user_count_map.put(uid, 0);
+		}
+		wbr.close();
+		
+		Map<Long, float[]> user_feature_map = new HashMap<Long, float[]>(3000);
+		BufferedReader vbr = new BufferedReader(new FileReader(new File(wordVecFile)));
+		line = vbr.readLine();
+		int length = Integer.parseInt(line.split("\\s+")[1]);
+		vbr.readLine();
+		long wordId;
+		float[] vector = new float[length];
+		Iterator<Entry<Long, long[]>> it = null;
+		Entry<Long, long[]> entry = null;
+		while ((line = vbr.readLine()) != null) {
+			st = new StringTokenizer(line," ");
+			wordId = Long.parseLong(st.nextToken());
+			i = 0;
+			while(st.hasMoreTokens()){vector[i++] = Float.parseFloat(st.nextToken());}
+			it = user_word_map.entrySet().iterator();
+			while(it.hasNext()){
+				entry = it.next();
+				uid = entry.getKey();
+				int idx = Arrays.binarySearch(entry.getValue(), wordId);
+				if(idx!=-1){
+					if(!user_feature_map.containsKey(uid)){user_feature_map.put(uid, new float[length]);}
+					int number = user_count_map.get(uid);
+					updateAvgVec(user_feature_map.get(uid),vector,number);
+					user_count_map.put(uid, number+1);
+				}
+			}
+		}
+		wbr.close();
+		vbr.close();
+
+		BufferedWriter fw = new BufferedWriter(new FileWriter(new File(avgVecFile)));
+		Iterator<Entry<Long, float[]>> it1 = user_feature_map.entrySet().iterator();
+		Entry<Long, float[]> entry1 = null;
+		while(it1.hasNext()){
+			entry1 = it1.next();
+			uid = entry1.getKey();
+			vector = entry1.getValue();
+			fw.write(uid + "\t");
+			for (int k = 0; k < length; k++) {
+				fw.write(k + 1 + ":" + vector[k] + "\t");
+			}
+			fw.write("\r\n");
+		}
+		fw.flush();
+		fw.close();
+	}
+	/*public static void avgVec(String wordFile, String wordVecFile, String avgVecFile) throws IOException {
 		Map<String, float[]> wordVec = new HashMap<String, float[]>(0xffff);
 		int length = loadWordVec(wordVec, wordVecFile); // 词向量维度
 		FileReader frtag = new FileReader(wordFile);
@@ -357,7 +534,13 @@ public class GetVectorOfItem {
 		fw.flush();
 		fw.close();
 		frtag.close();
+	}*/
+
+	private static void updateAvgVec(float[] vector, float[] add_vector, int number) {
+		int size = vector.length;
+		for(int i=0;i<size;i++){vector[i]=(vector[i]*number+add_vector[i])/(number+1);}
 	}
+
 
 	// 将用户每个标签的词向量通过求平均的方式生成向量文件
 	public static void avgList(String wordFile, String wordVecFile, String avgListFile) throws IOException {
@@ -417,7 +600,36 @@ public class GetVectorOfItem {
 		}
 		fw.flush();
 		fw.close();
+		System.out.println(featureFile);
 	}
 
+	public static void vec2Feature(String idFile,String wordVecFile,String featureFile) throws IOException {
+		Set<String> ids = new HashSet<String>(2223);
+		GetInfo.getSet(idFile, ids);
+
+		BufferedReader br = new BufferedReader(new FileReader(new File(wordVecFile)));
+		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(featureFile)));
+		for(int i=0;i<ignore;i++){br.readLine();}
+		String line = null;
+		StringTokenizer st = null;
+		int i = 1;
+		while(null!=(line=br.readLine())){
+			st = new StringTokenizer(line," ");
+			String uid = st.nextToken();
+			if(ids.contains(uid)){
+				bw.write(uid + "\t");
+				i = 1;
+				while(st.hasMoreTokens()){
+					bw.write(i++ + ":" + st.nextToken() + "\t");
+				}
+				bw.write("\r\n");
+				
+			}
+		}
+		bw.flush();
+		bw.close();
+		br.close();
+		System.out.println(featureFile);
+	}
 }
 
