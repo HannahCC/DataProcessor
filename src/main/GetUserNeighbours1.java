@@ -30,7 +30,7 @@ public class GetUserNeighbours1 {
 	public static final String _1srcfile = "UidInfo_friends1.txt"; //1层用户的关系数据
 	private static final String resfile = "Feature_UserInfo/UserIdNeighbours_c"; //1层用户的关系数据
 	private static final String resfile_t = "Fol.txt"; //1层用户的关系数据
-	private static final Byte[] thresholds = {1,2,3,5,8};
+	private static final Byte[] thresholds = {1/*,2,3,5,8*/};
 	public static void main(String args[]) throws IOException{
 		Set<Long> _0sids = new HashSet<Long>(3000);
 		getSet(dir+"ExpandID0.txt", _0sids);

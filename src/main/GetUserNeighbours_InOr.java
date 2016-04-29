@@ -25,15 +25,15 @@ public class GetUserNeighbours_InOr {
 	 */
 	public static final String dir = "/home/zps/sina2333/";//ext1000_Mute_GenderPre
 	private static final String srcfile_t = "Feature_UserInfo/UserIdNeighbours_c"; //1层用户的关系数据
-	private static final Byte[] thresholds = {1/*,2,3,5,8*/};
+	private static final Byte[] thresholds = {8/*,2,3,5,8*/};
 	public static void main(String args[]) throws IOException{
 		Map<Long, long[]> rel_map1 = new HashMap<Long, long[]>(3000);
 		Map<Long, long[]> rel_map2 = new HashMap<Long, long[]>(3000);
 		for(byte threshold : thresholds){
 			getUserNeighbours(rel_map1,dir+srcfile_t+threshold+"Fol.txt");
 			getUserNeighbours(rel_map2,dir+srcfile_t+threshold+"Fri.txt");
-			//getUserNeighbours_OR(rel_map1,rel_map2,dir+srcfile_t+threshold+"FolOrFri");
-			getUserNeighbours_AND(rel_map1,rel_map2,dir+srcfile_t+threshold+"FolAndFri");
+			//getUserNeighbours_OR(rel_map1,rel_map2,dir+srcfile_t+threshold+"FolOrFri.txt");
+			getUserNeighbours_AND(rel_map1,rel_map2,dir+srcfile_t+threshold+"FolAndFri.txt");
 			rel_map1.clear();
 			rel_map2.clear();
 		}
@@ -65,12 +65,18 @@ public class GetUserNeighbours_InOr {
 		Iterator<Entry<Long, long[]>> it = rel_map1.entrySet().iterator();
 		Entry<Long, long[]> entry  = null;
 		Set<Long> neiSet = new TreeSet<>();
+		Set<Long> neiSet2 = new HashSet<Long>(0xfff);
 		while(it.hasNext()){
 			entry = it.next();
-			for(long id : entry.getValue()){neiSet.add(id);}
 			if(rel_map2.containsKey(entry.getKey())){
-				neiSet.retainAll(Arrays.asList(rel_map2.get(entry.getKey())));
+				for(long id : entry.getValue()){neiSet2.add(id);}
+				for(long id : rel_map2.get(entry.getKey())){
+					if(neiSet2.contains(id)){
+						neiSet.add(id);
+					}
+				}
 			}
+			neiSet2.clear();
 			saveSet(bw,entry.getKey(),neiSet);
 			neiSet.clear();
 		}
@@ -92,7 +98,7 @@ public class GetUserNeighbours_InOr {
 				long[]  nei_idSet = new long[stringTokenizer.countTokens()];
 				int i=0;
 				while(stringTokenizer.hasMoreElements()){
-					nei_idSet[i]=Long.parseLong(stringTokenizer.nextToken());
+					nei_idSet[i++]=Long.parseLong(stringTokenizer.nextToken());
 				}
 				rel_map.put(id, nei_idSet);
 			}
