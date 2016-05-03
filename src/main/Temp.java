@@ -7,11 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,14 +20,7 @@ public class Temp {
 	public static void main(String args[]) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		//getDifferentId();
 		//readFile();
-<<<<<<< HEAD
-		/*lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\ExpandID1.txt");
-		lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\ExpandID1_fri.txt");
-=======
-		lineCountforFile("/home/zps/sina2333/Feature_UserInfo/UserIdNeighbours_c8Fri.txt");
-		/*lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\ExpandID1_fri.txt");
->>>>>>> 6b648f1ca62e2bb6f777f0ed0d5e05d03894e1e1
-		lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\UserInfo1.txt");*/
+		//lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\UserInfo1.txt");
 		//lineCountforFile("D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\Feature_UserInfo\\UserIdTag_01.txt");
 
 		//544845<=569674+2223

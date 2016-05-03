@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_77"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/ezmorph-1.0.6.jar"/>
-	<classpathentry kind="lib" path="/home/zps/workspace/lib/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_45"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="D:/Project_DataMinning/Code/Sina_DataProcess/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
