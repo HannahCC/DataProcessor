@@ -16,10 +16,10 @@ public class SpiltDocument {
 	public static void main(String[] args) throws IOException {
 		Set<String> ids = new HashSet<String>(0xff);
 		GetInfo.getSet(PATH+"UserID_Gender\\1_newest_unequal.txt", ids);
-		spiltDocument(ids,"Line//1635_a0_full.txt","Line//1635_a0_full_ordered.txt",false);
+		spiltDocument(ids,"Line//1635_UserIdFriends_full.txt","Line//1635_UserIdFriends_full_ordered.txt",false);
 		ids.clear();
 		GetInfo.getSet(PATH+"UserID_Gender\\2_newest_unequal.txt", ids);
-		spiltDocument(ids,"Line//1635_a0_full.txt","Line//1635_a0_full_ordered.txt",true);
+		spiltDocument(ids,"Line//1635_UserIdFriends_full.txt","Line//1635_UserIdFriends_full_ordered.txt",true);
 	}
 	private static void spiltDocument(Set<String> ids, String src,
 			String res, boolean isAppend) throws IOException {
