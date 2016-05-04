@@ -32,7 +32,7 @@ public class GetUidOfYellowV {
 			v_uid.add(uid);*/
 		}
 		r1.close();
-		File fw = new File(PATH+"ExpandID1_YV.txt");
+		File fw = new File(PATH+"Config//VFri_1.txt");
 		BufferedWriter w = new BufferedWriter(new FileWriter(fw));
 		for(String id:v_uid){
 			w.write(id+"\r\n");
