@@ -35,15 +35,16 @@ public class GetUserFriendsFull {
 	 * @throws IOException 
 	 */
 
-	private static final String path_root = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";
-	private static final String pathr_root2 = "D:\\Project_DataMinning\\DataProcessd\\Sina_GenderPre_1635\\Public_Info_Rel\\";
+	/*private static final String path_root = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";
+	private static final String path_root2 = "D:\\Project_DataMinning\\DataProcessd\\Sina_GenderPre_1635\\Public_Info_Rel\\";*/
+	private static final String path_root = "/home/zps/sina2333/";
 	private static final boolean isV = false;//false  1635_a0_full；true 1635_v0_full
 	public static void main(String args[]) throws IOException{
 		//getUserFriendsFull(path_root+"Line\\2333_a0_full.txt",path_root+"Feature_UserInfo\\UserIdFriends_new.txt",path_root+"ExpandID0.txt");
-		getUserFriendsFull(path_root+"Line\\1635_a01_full.txt",pathr_root2+"\\UserIdFriends_fri_all.txt",path_root+"UserID_Gender\\1_newest_unequal.txt",path_root+"UserID_Gender\\2_newest_unequal.txt");
+		getUserFriendsFull(path_root+"Line/1635_a01_hfull.txt",path_root+"/UserIdFriends_fri_all.txt",path_root+"UserID_Gender/1_newest_unequal.txt",path_root+"UserID_Gender/2_newest_unequal.txt");
 		/*for(int i=0;i<5;i++){
-			getUserFriendsFull("",pathr_root2+"\\"+i+"_UserIdFriends_train.txt",pathr_root2+i+"\\4_1_trainingid.txt",pathr_root2+i+"\\4_2_trainingid.txt");
-			getUserFriendsFull("",pathr_root2+"\\"+i+"_UserIdFriends_test.txt",pathr_root2+i+"\\1_testingid.txt",pathr_root2+i+"\\2_testingid.txt");
+			getUserFriendsFull("",pathr_root2+"\\"+i+"_UserIdFriends_train.txt",path_root2+i+"\\4_1_trainingid.txt",path_root2+i+"\\4_2_trainingid.txt");
+			getUserFriendsFull("",pathr_root2+"\\"+i+"_UserIdFriends_test.txt",path_root2+i+"\\1_testingid.txt",path_root2+i+"\\2_testingid.txt");
 		}*/
 	}
 
@@ -53,7 +54,7 @@ public class GetUserFriendsFull {
 		for(String idfile : idfiles){
 			GetInfo.getSet(idfile, vertex_set0);
 		}
-		
+
 		Set<String> vertex_set1 = new HashSet<String>(0xffff);
 		Set<String> vids = null;
 		if(isV){
@@ -67,9 +68,9 @@ public class GetUserFriendsFull {
 		getUserOtherFriends0(rel_map,vertex_set0,vertex_set1,vids,path_root+"UidInfo_follows0.txt");//从粉丝文件中补充0层用户的关注，并补充顶点集
 		getUserOtherFriends0(rel_map,vertex_set0,vertex_set1,vids,path_root+"UidInfo_follows1.txt");//从粉丝文件中补充0层用户的关注，并补充顶点集 
 		getUserFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_friends1.txt");//获取1层用户的关注（补充顶点之间的边）
-		getUserOtherFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_follows0.txt");//从粉丝文件中补充顶点集用户之间的关系 
+		/*getUserOtherFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_follows0.txt");//从粉丝文件中补充顶点集用户之间的关系 
 		getUserOtherFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_follows1.txt");//从粉丝文件中补充顶点集用户之间的关系 
-		//将StringBuffer中的边去重，写入结果文件
+		*///将StringBuffer中的边去重，写入结果文件
 		if(!"".equals(resfile1))saveSetMap(rel_map,resfile1,false);
 		if(!"".equals(resfile2))saveSetMap2(rel_map,resfile2,false);
 	}
@@ -276,17 +277,17 @@ public class GetUserFriendsFull {
 		while((line = b.readLine())!=null){
 			json = JSONObject.fromObject(line);
 			id = json.getString("id");
-			if(!vertex_set0.contains(id)&&!vertex_set1.contains(id))continue;
-			uids = (List<String>) json.get("uids");
-
-			for(String uid : uids){
-				if(vertex_set0.contains(id)||vertex_set1.contains(id)){//说明用户id被uid关注，且uid是顶点集中的用户
-					if(rel_map.containsKey(uid)){
-						rel_map.get(uid).append(id+",");
-					}else{
-						StringBuffer sb = new StringBuffer();
-						sb.append(id+",");
-						rel_map.put(uid, sb);
+			if(vertex_set0.contains(id)||vertex_set1.contains(id)){
+				uids = (List<String>) json.get("uids");
+				for(String uid : uids){
+					if(vertex_set0.contains(id)||vertex_set1.contains(id)){//说明用户id被uid关注，且uid是顶点集中的用户
+						if(rel_map.containsKey(uid)){
+							rel_map.get(uid).append(id+",");
+						}else{
+							StringBuffer sb = new StringBuffer();
+							sb.append(id+",");
+							rel_map.put(uid, sb);
+						}
 					}
 				}
 			}
