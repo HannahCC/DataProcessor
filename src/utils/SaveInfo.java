@@ -17,16 +17,28 @@ public class SaveInfo {
 	public static void saveString(String dirname, String filename, String info,boolean isAppend) throws IOException {
 		if(null==info||"".equals(info))return;
 		mkdir(dirname);
-		File f = new File(dirname+"\\"+filename);
+		File f = new File(dirname+"/"+filename);
 		BufferedWriter w = new BufferedWriter(new FileWriter(f,isAppend));
 		w.write(info+"\r\n");
+		w.flush();
+		w.close();
+	}
+
+	public static void saveDict(String dirname, String filename, Set<?> set, boolean isAppend) throws IOException {
+		mkdir(dirname);
+		File f = new File(dirname+"/"+filename);
+		BufferedWriter w = new BufferedWriter(new FileWriter(f,isAppend));
+		int i = 0;
+		for(Object item : set){
+			w.write(item+"\t"+(i++)+"\r\n");
+		}
 		w.flush();
 		w.close();
 	}
 	
 	public static void saveSet(String dirname, String filename, Set<?> set, boolean isAppend) throws IOException {
 		mkdir(dirname);
-		File f = new File(dirname+"\\"+filename);
+		File f = new File(dirname+"/"+filename);
 		BufferedWriter w = new BufferedWriter(new FileWriter(f,isAppend));
 		for(Object item : set){
 			w.write(item+"\r\n");
@@ -56,7 +68,7 @@ public class SaveInfo {
 
 	public static void saveList(String dirname, String filename,List<?> list, boolean isAppend) throws IOException {
 		mkdir(dirname);
-		File f = new File(dirname+"\\"+filename);
+		File f = new File(dirname+"/"+filename);
 		BufferedWriter w = new BufferedWriter(new FileWriter(f,isAppend));
 		for(Object item : list){
 			w.write(item+"\r\n");
@@ -89,7 +101,7 @@ public class SaveInfo {
 		FileInputStream fi = new FileInputStream(src);
 		FileChannel in = fi.getChannel();
 		mkdir(des_dir);	
-		File t = new File(des_dir+"\\"+src.getName());
+		File t = new File(des_dir+"/"+src.getName());
 		FileOutputStream fo = new FileOutputStream(t);
 		FileChannel out = fo.getChannel();
 		//out.transferFrom(in, 0, in.size());

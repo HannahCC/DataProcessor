@@ -20,6 +20,7 @@ public class SpiltDocument {
 		ids.clear();
 		GetInfo.getSet(PATH+"UserID_Gender\\1_newest_unequal.txt", ids);
 		spiltDocument(ids,PATH2+"0_Friends_full_train.txt",PATH2+"0_Friends_full_train_ordered21.txt",true);
+
 	}
 	private static void spiltDocument(Set<String> ids, String src,
 			String res, boolean isAppend) throws IOException {
