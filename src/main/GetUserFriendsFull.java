@@ -7,9 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,16 +38,39 @@ public class GetUserFriendsFull {
 	 * @throws IOException 
 	 */
 
-	/*private static final String path_root = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";
-	private static final String path_root2 = "D:\\Project_DataMinning\\DataProcessd\\Sina_GenderPre_1635\\Public_Info_Rel\\";*/
-	private static final String path_root = "/home/zps/sina2333/";
+	private static final String path_root = "D:\\Project_DataMinning\\Data\\Sina_res\\Sina_NLPIR2223_GenderPre\\";
+	private static final String path_root2 = "D:\\Project_DataMinning\\DataProcessd\\Sina_GenderPre_1635\\Public_Info_Rel\\";
+	//private static final String path_root = "/home/zps/sina2333/";
 	private static final boolean isV = false;//false  1635_a0_full；true 1635_v0_full
+	private static int isSorted = 2; //朋友的id是否按序排列
 	public static void main(String args[]) throws IOException{
-		//getUserFriendsFull(path_root+"Line\\2333_a0_full.txt",path_root+"Feature_UserInfo\\UserIdFriends_new.txt",path_root+"ExpandID0.txt");
-		getUserFriendsFull(path_root+"Line/1635_a01_hfull.txt",path_root+"/UserIdFriends_fri_all.txt",path_root+"UserID_Gender/1_newest_unequal.txt",path_root+"UserID_Gender/2_newest_unequal.txt");
+		/*getUserFriendsFull(path_root2+"Line\\FriendsNet\\1635_Friends_hfull_fri.txt",
+				path_root2+"Vector\\UserIdFriends\\UserIdFriends_hfull_fri.txt",
+				path_root+"UserID_Gender\\1_newest_unequal.txt",
+				path_root+"UserID_Gender\\2_newest_unequal.txt");
+		for(int j=1;j<5;j++){
+			for(int i=0;i<5;i++){
+				getUserFriendsFull(path_root2+"Line\\FriendsNet\\"+j+"_"+i+"_Friends_hfull_fri_train.txt",
+						path_root2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_fri_train.txt",
+						path_root2+i+"\\"+j+"_1_trainingid.txt",
+						path_root2+i+"\\"+j+"_2_trainingid.txt");
+			}
+		}*/
+
+		getUserFriendsFull("",/*path_root2+"Line\\FriendsNet\\1635_Friends_full.txt",*/
+				path_root2+"Vector\\UserIdFriends\\UserIdFriends_full_sorted2.txt",
+				path_root+"UserID_Gender\\1_newest_unequal.txt",
+				path_root+"UserID_Gender\\2_newest_unequal.txt");
 		/*for(int i=0;i<5;i++){
-			getUserFriendsFull("",pathr_root2+"\\"+i+"_UserIdFriends_train.txt",path_root2+i+"\\4_1_trainingid.txt",path_root2+i+"\\4_2_trainingid.txt");
-			getUserFriendsFull("",pathr_root2+"\\"+i+"_UserIdFriends_test.txt",path_root2+i+"\\1_testingid.txt",path_root2+i+"\\2_testingid.txt");
+			getUserFriendsFull("",path_root2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",
+					path_root2+i+"\\1_testingid.txt",
+					path_root2+i+"\\2_testingid.txt");
+			for(int j=1;j<5;j++){
+				getUserFriendsFull(path_root2+"Line\\FriendsNet\\"+j+"_"+i+"_Friends_full_train.txt",
+						path_root2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",
+						path_root2+i+"\\"+j+"_1_trainingid.txt",
+						path_root2+i+"\\"+j+"_2_trainingid.txt");
+			}
 		}*/
 	}
 
@@ -67,12 +93,16 @@ public class GetUserFriendsFull {
 		getUserFriends0(rel_map,vertex_set0,vertex_set1,vids,path_root+"UidInfo_friends0.txt");//获取0层用户的关注，并补充顶点集
 		getUserOtherFriends0(rel_map,vertex_set0,vertex_set1,vids,path_root+"UidInfo_follows0.txt");//从粉丝文件中补充0层用户的关注，并补充顶点集
 		getUserOtherFriends0(rel_map,vertex_set0,vertex_set1,vids,path_root+"UidInfo_follows1.txt");//从粉丝文件中补充0层用户的关注，并补充顶点集 
-		getUserFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_friends1.txt");//获取1层用户的关注（补充顶点之间的边）
+		//getUserFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_friends1.txt");//获取1层用户的关注（补充顶点之间的边）
 		/*getUserOtherFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_follows0.txt");//从粉丝文件中补充顶点集用户之间的关系 
 		getUserOtherFriends1(rel_map,vertex_set0,vertex_set1,path_root+"UidInfo_follows1.txt");//从粉丝文件中补充顶点集用户之间的关系 
-		*///将StringBuffer中的边去重，写入结果文件
+		 *///将StringBuffer中的边去重，写入结果文件
 		if(!"".equals(resfile1))saveSetMap(rel_map,resfile1,false);
-		if(!"".equals(resfile2))saveSetMap2(rel_map,resfile2,false);
+		if(!"".equals(resfile2)){
+			if(isSorted==0){saveSetMap0(rel_map,resfile2,false);}
+			else if(isSorted==1){saveSetMap1(rel_map,resfile2,false);}
+			else if(isSorted==2){saveSetMap2(rel_map,resfile2,false);}
+		}
 	}
 
 
@@ -114,7 +144,30 @@ public class GetUserFriendsFull {
 		w.flush();
 		w.close();
 	}
-	private static void saveSetMap2(Map<String, StringBuffer> rel_map,String resfile, boolean isAppend) throws IOException {
+
+	//fri id不排序
+	private static void saveSetMap0(Map<String, StringBuffer> rel_map,String resfile, boolean isAppend) throws IOException {
+		File f1 = new File(resfile);
+		BufferedWriter w = new BufferedWriter(new FileWriter(f1,isAppend));
+		Set<String> fri_id_set = new HashSet<String>();
+		for(String id:rel_map.keySet()){
+			String[] fri_ids = rel_map.get(id).toString().split(",");
+			w.write(id);
+			for(String fri_id : fri_ids){
+				if(!fri_id_set.contains(fri_id)){
+					w.write("\t"+fri_id);
+					fri_id_set.add(fri_id);
+				}
+			}
+			w.write("\r\n");
+			fri_id_set.clear();
+		}
+		w.flush();
+		w.close();
+	}
+
+	//fri id 按首字符排序
+	private static void saveSetMap1(Map<String, StringBuffer> rel_map,String resfile, boolean isAppend) throws IOException {
 		File f1 = new File(resfile);
 		BufferedWriter w = new BufferedWriter(new FileWriter(f1,isAppend));
 		Set<String> fri_id_set = new TreeSet<String>();
@@ -132,6 +185,35 @@ public class GetUserFriendsFull {
 		w.close();
 	}
 
+	//fri id 按尾字符排序
+	private static void saveSetMap2(Map<String, StringBuffer> rel_map,String resfile, boolean isAppend) throws IOException {
+		File f1 = new File(resfile);
+		BufferedWriter w = new BufferedWriter(new FileWriter(f1,isAppend));
+		List<String> fri_id_list = new LinkedList<String>();
+		String[] fri_ids = null;
+		for(String id:rel_map.keySet()){
+			fri_ids = rel_map.get(id).toString().split(",");
+			for(String fri_id : fri_ids){
+				if(!fri_id_list.contains(fri_id)){
+					fri_id_list.add(fri_id);
+				}
+			}
+			Collections.sort(fri_id_list, new Comparator<String>() {
+				@Override
+				public int compare(String o1, String o2) {
+					return reverseString(o1).compareTo(reverseString(o2));
+				}
+			});
+			w.write(id);
+			for(String fri_id : fri_id_list){
+				w.write("\t"+fri_id);
+			}
+			w.write("\r\n");
+			fri_id_list.clear();
+		}
+		w.flush();
+		w.close();
+	}
 
 	/**
 	 * * 0层用户获取朋友数据
@@ -294,5 +376,13 @@ public class GetUserFriendsFull {
 		}
 		b.close();
 		System.out.println("have read "+srcfile);
+	}
+	public static String reverseString(String s) {
+		int length = s.length();
+		if (length <= 1)
+			return s;
+		String left = s.substring(0, length / 2);
+		String right = s.substring(length / 2, length);
+		return reverseString(right) + reverseString(left);
 	}
 }

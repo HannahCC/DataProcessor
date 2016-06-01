@@ -1,4 +1,4 @@
-package main;
+﻿package main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-import utils.GetInfo;
 
 public class GetVectorOfItem {
 
@@ -39,13 +38,24 @@ public class GetVectorOfItem {
 
 		Map<String, float[]> wordVec = new HashMap<String, float[]>();
 		int length = 0;
+		//stat
+		isNull = true;
+		isStat = true;
+		int[] ratio = {4,3,2,1};
+		int[] fold = {0,1,2,3,4};
+		for(int r : ratio){
+			for(int i : fold){
+				length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wcr100l100i15_f"+i+r+"train_Self+Fri_vector.txt");
+				isNullCompletely = 0; isNullPartialy = 0; friendsTotal = 0;isNullSet.clear();friendsSet.clear();
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+r+"_"+i+"_UserIdFriends_train.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+r+"Train_"+i+"_feature_test.txt",false);
+				printStat("ratio:"+r+" fold:"+i+"training data");
+				isNullCompletely = 0; isNullPartialy = 0; friendsTotal = 0;isNullSet.clear();friendsSet.clear();
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+r+"Train_"+i+"_feature_test.txt",true);
+				printStat("ratio:"+r+" fold:"+i+"testing data");
+				wordVec.clear();
+			}
+		}
 
-		length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wlr200l100i15_Self+Un2Fri_vector.txt");
-		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SUn2FriAvgVec_skn5wlr200l100i15_Train+Test_feature.txt",false);
-		wordVec.clear();
-		length = loadWordVec(wordVec, PATH2+"Vector\\1635_p2cbown5wcr100l100i15_Self+Un2Fri_vector.txt");
-		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SUn2FriAvgVec_p2cbown5wcr100l100i15_Train+Test_feature.txt",false);
-		wordVec.clear();
 	}
 
 	private static void printStat(String info) {
@@ -270,205 +280,7 @@ public class GetVectorOfItem {
 		fw.close();
 		System.out.println(avgVecFile);
 	}
-	// 将用户每个标签的词向量通过求平均的方式生成可输入SVM的用户向量
-	/*	public static void avgVec(String wordFile, String wordVecFile, String avgVecFile) throws IOException {
-		//Map<String, float[]> wordVec,
-		BufferedReader wbr = new BufferedReader(new FileReader(new File(wordFile)));
-		Map<Long, long[]> user_word_map = new HashMap<Long, long[]>(3000);
-		Map<Long, Integer> user_count_map = new HashMap<Long, Integer>(3000);
-		String line = null;
-		long uid;
-		int i;
-		StringTokenizer st = null;
-		while ((line = wbr.readLine()) != null) {
-			st = new StringTokenizer(line,"\t");
-			uid = Long.parseLong(st.nextToken().intern());
-			long[] user_word = new long[st.countTokens()];
-			i = 0;
-			while(st.hasMoreTokens()){//对0层用户的每个朋友
-				String tmp = st.nextToken().intern();
-				user_word[i++] = Long.parseLong(tmp);
-			}
-			user_word_map.put(uid, user_word);
-			user_count_map.put(uid, 0);
-		}
-		wbr.close();
+	
 
-		Map<Long, float[]> user_feature_map = new HashMap<Long, float[]>(3000);
-		BufferedReader vbr = new BufferedReader(new FileReader(new File(wordVecFile)));
-		line = vbr.readLine();
-		int length = Integer.parseInt(line.split("\\s+")[1]);
-		vbr.readLine();
-		long wordId;
-		float[] vector = new float[length];
-		Iterator<Entry<Long, long[]>> it = null;
-		Entry<Long, long[]> entry = null;
-		while ((line = vbr.readLine()) != null) {
-			st = new StringTokenizer(line," ");
-			wordId = Long.parseLong(st.nextToken());
-			i = 0;
-			while(st.hasMoreTokens()){vector[i++] = Float.parseFloat(st.nextToken());}
-			it = user_word_map.entrySet().iterator();
-			while(it.hasNext()){
-				entry = it.next();
-				uid = entry.getKey();
-				int idx = Arrays.binarySearch(entry.getValue(), wordId);
-				if(idx!=-1){
-					if(!user_feature_map.containsKey(uid)){user_feature_map.put(uid, new float[length]);}
-					int number = user_count_map.get(uid);
-					updateAvgVec(user_feature_map.get(uid),vector,number);
-					user_count_map.put(uid, number+1);
-				}
-			}
-		}
-		wbr.close();
-		vbr.close();
-
-		BufferedWriter fw = new BufferedWriter(new FileWriter(new File(avgVecFile)));
-		Iterator<Entry<Long, float[]>> it1 = user_feature_map.entrySet().iterator();
-		Entry<Long, float[]> entry1 = null;
-		while(it1.hasNext()){
-			entry1 = it1.next();
-			uid = entry1.getKey();
-			vector = entry1.getValue();
-			fw.write(uid + "\t");
-			for (int k = 0; k < length; k++) {
-				fw.write(k + 1 + ":" + vector[k] + "\t");
-			}
-			fw.write("\r\n");
-		}
-		fw.flush();
-		fw.close();
-	}*/
-	/*public static void avgVec(String wordFile, String wordVecFile, String avgVecFile) throws IOException {
-		Map<String, float[]> wordVec = new HashMap<String, float[]>(0xffff);
-		int length = loadWordVec(wordVec, wordVecFile); // 词向量维度
-		FileReader frtag = new FileReader(wordFile);
-		BufferedReader brtag = new BufferedReader(frtag);
-		BufferedWriter fw = new BufferedWriter(new FileWriter(new File(avgVecFile)));
-
-		String tline = null;
-		String[] ss = null;
-		String uid = null;
-		while ((tline = brtag.readLine()) != null) {
-			ss = tline.split("\t", 2)[1].split("\t");
-			uid = tline.split("\t",2)[0];
-			if (ss.length==0) {
-				System.out.println(tline);
-				continue;
-			} else {
-				float[] avgVec = getAvgVec(ss, length, wordVec);
-				if(avgVec==null){//即没有在wordVec中找到任意一个词的向量
-					System.out.println(uid+"不匹配-"+tline);
-					continue;
-				}
-				fw.write(uid + "\t");
-				for (int i = 0; i < length; i++) {
-					fw.write(i + 1 + ":" + avgVec[i] + "\t");
-				}
-				fw.write("\r\n");
-			}
-		}
-		brtag.close();
-		fw.flush();
-		fw.close();
-		frtag.close();
-	}*/
-
-	/*private static void updateAvgVec(float[] vector, float[] add_vector, int number) {
-		int size = vector.length;
-		for(int i=0;i<size;i++){vector[i]=(vector[i]*number+add_vector[i])/(number+1);}
-	}*/
-
-
-	/*// 将用户每个标签的词向量通过求平均的方式生成向量文件
-	public static void avgList(String wordFile, String wordVecFile, String avgListFile) throws IOException {
-		Map<String, float[]> wordVec = new HashMap<String, float[]>(0xffff);
-		int length = loadWordVec(wordVec, wordVecFile); // 词向量维度
-		FileReader frtag = new FileReader(wordFile);
-		BufferedReader brtag = new BufferedReader(frtag);
-		BufferedWriter fw = new BufferedWriter(new FileWriter(new File(avgListFile)));
-
-		String tline = null;
-		String[] ss = null;
-		String uid = null;
-		fw.write("\r\n");
-		fw.write("\r\n");
-		while ((tline = brtag.readLine()) != null) {
-			uid = tline.split("\t",2)[0];
-			ss = tline.split("\t",2)[1].split("\\s+");
-			if (ss.length==0) {
-				System.out.println(tline);
-				continue;
-			} else {
-				float[] avgVec = getAvgVec(ss, length, wordVec);
-				if(avgVec==null){//即没有在wordVec中找到任意一个词的向量
-					System.out.println(uid+"不匹配-"+tline);
-					continue;
-				}
-				fw.write(uid + "\t");
-				for (int i = 0; i < length; i++) {
-					fw.write(avgVec[i] + " ");
-				}
-				fw.write("\r\n");
-			}
-		}
-
-		brtag.close();
-		fw.flush();
-		fw.close();
-		frtag.close();
-	}*/
-
-	public static void vec2Feature(String idFile,  Map<String, float[]> vecs, String featureFile) throws IOException {
-		Set<String> ids = new HashSet<String>(2223);
-		GetInfo.getSet(idFile, ids);
-
-		BufferedWriter fw = new BufferedWriter(new FileWriter(new File(featureFile)));
-		for(String id : ids){
-			if(vecs.containsKey(id)){
-				float[] vec = vecs.get(id);
-				fw.write(id + "\t");
-				for (int i = 0; i < vec.length; i++) {
-					fw.write(i + 1 + ":" + vec[i] + "\t");
-				}
-				fw.write("\r\n");
-			}else{
-				System.out.println(id+" has no vector!!!!!!!!!!!!!!!");
-			}
-		}
-		fw.flush();
-		fw.close();
-		System.out.println(featureFile);
-	}
-
-	public static void vec2Feature(String idFile,String wordVecFile,String featureFile) throws IOException {
-		Set<String> ids = new HashSet<String>(2223);
-		GetInfo.getSet(idFile, ids);
-
-		BufferedReader br = new BufferedReader(new FileReader(new File(wordVecFile)));
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File(featureFile)));
-		for(int i=0;i<ignore;i++){br.readLine();}
-		String line = null;
-		StringTokenizer st = null;
-		int i = 1;
-		while(null!=(line=br.readLine())){
-			st = new StringTokenizer(line," ");
-			String uid = st.nextToken();
-			if(ids.contains(uid)){
-				bw.write(uid + "\t");
-				i = 1;
-				while(st.hasMoreTokens()){
-					bw.write(i++ + ":" + st.nextToken() + "\t");
-				}
-				bw.write("\r\n");
-
-			}
-		}
-		bw.flush();
-		bw.close();
-		br.close();
-		System.out.println(featureFile);
-	}
 }
 

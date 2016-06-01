@@ -1,0 +1,280 @@
+		//baseline
+		int[] ratio = {4,3,2,1};
+		int[] fold = {0,1,2,3,4};
+		ignore = 1;
+		length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_full\\vec_1st_s10n5d100.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_Linevec1s10n5d100_Train+Test_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_full\\vec_2nd_s10n5d100.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_Linevec2s10n5d100_Train+Test_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_full\\vec_all_s10n5d100.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_LinevecAlls10n5d100_Train+Test_feature.txt",false);
+		wordVec.clear();
+		for(int j : ratio){
+			for(int i : fold){
+				length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_full_"+j+"Train\\"+i+"_vec_1st_s10n5d100.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_Linevec1s10n5d100_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_Linevec1s10n5d100_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+				length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_full_"+j+"Train\\"+i+"_vec_2nd_s10n5d100.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_Linevec2s10n5d100_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_Linevec2s10n5d100_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+				length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_full_"+j+"Train\\"+i+"_vec_all_s10n5d100.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_LinevecAlls10n5d100_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_LinevecAlls10n5d100_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+			}
+		}
+
+		length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_hfull_fri\\vec_1st_s10n5d100.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_Linevec1s10n5d100_Train+Test_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_hfull_fri\\vec_2nd_s10n5d100.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_Linevec2s10n5d100_Train+Test_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_hfull_fri\\vec_all_s10n5d100.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_LinevecAlls10n5d100_Train+Test_feature.txt",false);
+		wordVec.clear();
+		for(int j : ratio){
+			for(int i : fold){
+				length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_hfull_fri_"+j+"Train\\"+i+"_vec_1st_s10n5d100.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_Linevec1s10n5d100_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_Linevec1s10n5d100_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+				length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_hfull_fri_"+j+"Train\\"+i+"_vec_2nd_s10n5d100.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_Linevec2s10n5d100_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_Linevec2s10n5d100_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+				length = loadWordVec(wordVec, PATH2+"Line\\1635_Friends_hfull_fri_"+j+"Train\\"+i+"_vec_all_s10n5d100.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_LinevecAlls10n5d100_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec,length,PATH+"Feature_Relation\\1635_SFriAvgVec_fri_LinevecAlls10n5d100_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+			}
+		}
+
+		//window or size
+		length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wlr5l100i15_Self+Fri_vector.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wlr5l100i15_Train+Test_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wcr100l100i15_Self+Fri_vector.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_Train+Test_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH2+"Vector\\1635_p2cbown5wcr100l100i15_Self+Fri_vector.txt");
+		avgVecForUser(PATH2+"Vector\\UserIdFriends\\UserIdFriends_full.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_p2cbown5wcr100l100i15_Train+Test_feature.txt",false);
+		wordVec.clear();
+		
+		//incre
+		ignore = 2;
+		int[] ratio = {4,3,2,1};
+		int[] fold = {0,1,2,3,4};
+		for(int j : ratio){
+			for(int i : fold){
+				length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wlr200l100i15_f"+i+j+"train_Self+Fri_vector.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wlr200l100i15_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wlr200l100i15_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+			}
+		}
+		for(int j : ratio){
+			for(int i : fold){
+				length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wcr100l100i15_f"+i+j+"train_Self+Fri_vector.txt");
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+j+"_"+i+"_UserIdFriends_train.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+j+"Train_"+i+"_feature.txt",false);
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+j+"Train_"+i+"_feature.txt",true);
+				wordVec.clear();
+			}
+		}
+
+		String[] alphaArr = {"02","05","15","25","35"};
+		for(int r : ratio){
+			for(String alpha : alphaArr){
+				for(int i : fold){
+					length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wcr100l100i15_f"+i+r+"train_Self+Fri_vector.txt");
+					length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wcr100l100i15_f"+i+r+"test_increu0t0a"+alpha+"_Self+Fri_vector.txt");
+					avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+r+"_"+i+"_UserIdFriends_train.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+r+"Train~Test_increu0t0a"+alpha+"_"+i+"_feature.txt",false);
+					avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+r+"Train~Test_increu0t0a"+alpha+"_"+i+"_feature.txt",true);
+					wordVec.clear();
+				}
+			}
+		}
+		
+		//stat
+		isNull = true;
+		isStat = true;
+		int[] ratio = {4,3,2,1};
+		int[] fold = {0,1,2,3,4};
+		for(int r : ratio){
+			for(int i : fold){
+				length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wcr100l100i15_f"+i+r+"train_Self+Fri_vector.txt");
+				isNullCompletely = 0; isNullPartialy = 0; friendsTotal = 0;isNullSet.clear();friendsSet.clear();
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+r+"_"+i+"_UserIdFriends_train.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+r+"Train_"+i+"_feature_test.txt",false);
+				printStat("ratio:"+r+" fold:"+i+"training data");
+				isNullCompletely = 0; isNullPartialy = 0; friendsTotal = 0;isNullSet.clear();friendsSet.clear();
+				avgVecForUser(PATH2+"Vector\\UserIdFriends\\"+i+"_UserIdFriends_test.txt",wordVec, length,PATH+"Feature_Relation\\1635_Self+SFriAvgVec_skn5wcr100l100i15_"+r+"Train_"+i+"_feature_test.txt",true);
+				printStat("ratio:"+r+" fold:"+i+"testing data");
+				wordVec.clear();
+			}
+		}
+
+		//Text
+		Set<String> ids = new HashSet<String>(2000);
+		GetInfo.getSet(PATH+"UserID_Gender\\all_newest_unequal.txt", ids);
+		length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wlr5l300i15_Self+Text_vector.txt");
+		avgVecForWeibo(ids, PATH+"Weibos0_Text\\", wordVec, length, PATH+"Feature_Textual\\1635_Self+TextAvgVec_skn5wlr5l300i15_Train+Test_feature.txt",false);
+		wordVec.clear();
+		int[] ratio = {1,2,3,4};
+		for(int i=0;i<5;i++){
+			for(int j : ratio){
+				ids.clear();
+				GetInfo.getSet(PATH2+i+"\\"+j+"_1_trainingid.txt", ids);
+				GetInfo.getSet(PATH2+i+"\\"+j+"_2_trainingid.txt", ids);
+				length = loadWordVec(wordVec, PATH2+"Vector\\1635_skn5wlr5l300i15_f"+i+j+"train_Self+Text_vector.txt");
+				avgVecForWeibo(ids, PATH+"Weibos0_Text\\", wordVec, length, PATH+"Feature_Textual\\1635_Self+TextAvgVec_skn5wlr5l300i15_"+j+"Train_"+i+"_feature.txt", false);
+				ids.clear();
+				GetInfo.getSet(PATH2+i+"\\1_testingid.txt", ids);
+				GetInfo.getSet(PATH2+i+"\\2_testingid.txt", ids);
+				avgVecForWeibo(ids, PATH+"Weibos0_Text\\", wordVec, length, PATH+"Feature_Textual\\1635_Self+TextAvgVec_skn5wlr5l300i15_"+j+"Train_"+i+"_feature.txt", true);
+				wordVec.clear();
+			}
+		}
+		---------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+		
+		//Text
+		//每个用户对应一个文件，每个微博对应一行，===》每个微博得到一个向量，每个用户得到一个向量
+		/*avgVecForWeibo(PATH+"Weibos_Text", PATH+"Vector\\2223_Win8_L200_Text_vector.txt",
+				PATH+"Vector\\Weibos_Text", PATH+"Feature_Textual\\2223_Win8_L200_TextAvgVec_feature.txt",false);
+		//POS
+		avgVecForWeibo(PATH+"Weibos_POS", PATH+"Vector\\2223_Win8_L200_POS_vector.txt",
+				PATH+"Vector\\Weibos_POS", PATH+"Feature_Textual\\2223_Win8_L200_POSAvgVec_feature.txt",false);*/
+
+		//Tag
+		/*avgVec(PATH+"Feature_UserInfo\\UserIdTag.txt",PATH+"Vector\\2223_Win8_L100_Tag_fri_vector.txt",
+				PATH+"Feature_UserInfo\\TagAvgVec_fri_feature.txt",false);*/
+
+		//Src
+		/*avgVec(PATH+"Feature_UserInfo\\UserIdSrc.txt",PATH+"Vector\\2223_Win500_L100_Src_fri_vector.txt",
+				PATH+"Feature_Src\\SrcAvgVec_fri_feature.txt",false);
+		length = loadWordVecFromFeature(wordVec, PATH+"Feature_Src\\SrcAvgVec_fri_feature.txt",false);
+		avgVec(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriSrcAvgVec_fri_feature.txt",false);
+		wordVec.clear();*/
+
+		//Fri
+		//根据用户的向量（w2v生成），得到用户的特征
+		//根据用户的朋友，以及朋友的向量（W2V训练生成），得到用户特征向量（朋友求平均）
+		
+		//根据用户的向量（Line生成），得到用户的特征
+		//根据用户的朋友，以及朋友的向量（Line生成），得到用户特征向量（朋友求平均）
+		/*vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\flickr-links_vec_all.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d128all_feature.txt",false);
+		vec2Feature(PATH+"UserID//all.txt",PATH+"Line\\all_s10n5d128\\youtube-links_vec_all.txt",PATH+"Feature_Relation\\FriVec_Lines10n5d128all_feature.txt",false);
+		 */
+
+		/*length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_full\\vec_1st_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_Linevec1s10000n5d128_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_full\\vec_2nd_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_Linevec2s10000n5d128_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_full\\vec_all_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_LinevecAlls10000n5d128_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_full_ordered\\vec_1st_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_Linevec1s10000n5d128ordered_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_full_ordered\\vec_2nd_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_Linevec2s10000n5d128ordered_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_full_ordered\\vec_all_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_LinevecAlls10000n5d128ordered_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_hfull_fri\\vec_1st_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_fri_Linevec1s10000n5d128_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_hfull_fri\\vec_2nd_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_fri_Linevec2s10000n5d128_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Line\\1635_UserIdFriends_hfull_fri\\vec_all_s10000n5d100.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends_full.txt",wordVec,length,PATH+"Feature_Relation\\FriAvgVec_fri_LinevecAlls10000n5d128_feature.txt",false);
+		wordVec.clear();*/
+
+		//Neighbour
+		/*vec2Feature(PATH+"ExpandID0.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c1FolAndFri_vector.txt",PATH+"Feature_Relation\\NeiVec_win200c1FolAndFri_feature.txt",false);
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdNeighbours_c1FolAndFri.txt",PATH+"Vector\\2223_Win200_L100_Neighbour_c1FolAndFri_vector.txt",PATH+"Feature_Relation\\NeiAvgVec_win200c1FolAndFri_feature.txt",false);
+		wordVec.clear();
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win200_L100_Neighbour_c3FolAndFri_vector.txt");
+		vec2Feature(PATH+"ExpandID0.txt",wordVec,PATH+"Feature_Relation\\NeiVec_win200c3FolAndFri_feature.txt",false);
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdNeighbours_c3FolAndFri.txt",wordVec, length,PATH+"Feature_Relation\\NeiAvgVec_win200c3FolAndFri_feature.txt",false);
+		wordVec.clear();
+		*/
+
+		//Fri+Tag/Src
+		/*avgList(PATH+"Feature_UserInfo\\UserIdTag_fri.txt", PATH+"Vector\\2223_Win8_L100_Tag_fri_vector.txt",PATH+"Vector\\2223_Win8_L100_TagAvg_fri_vector.txt");
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_TagAvg_fri_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriTagAvgVec_fri_feature.txt",false);
+		wordVec.clear();
+		avgList(PATH+"Feature_UserInfo\\UserIdTag_vfri.txt", PATH+"Vector\\2223_Win8_L100_Tag_vfri_vector.txt",PATH+"Vector\\2223_Win8_L100_TagAvg_vfri_vector.txt");
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_TagAvg_vfri_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriTagAvgVec_vfri_feature.txt",false);
+		wordVec.clear();
+		avgList(PATH+"Feature_UserInfo\\UserIdSrc.txt", PATH+"Vector\\2223_Win8_L100_Src_fri_vector.txt",PATH+"Vector\\2223_Win8_L100_SrcAvg_fri_vector.txt");
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_SrcAvg_fri_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriSrcAvgVec_fri_feature.txt",false);
+		wordVec.clear();
+		avgList(PATH+"Feature_UserInfo\\UserIdSrc.txt", PATH+"Vector\\2223_Win8_L100_Src_vfri_vector.txt",PATH+"Vector\\2223_Win8_L100_SrcAvg_vfri_vector.txt");
+		length = loadWordVec(wordVec, PATH+"Vector\\2223_Win8_L100_SrcAvg_vfri_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdVFriends.txt",wordVec,length,PATH+"Feature_Relation\\FriSrcAvgVec_vfri_feature.txt",false);
+		wordVec.clear();*/
+		/*============================================暂时不用的向量特征=================================================*/
+		/*//将Src描述分词，利用分词后的文件训练得到描述词的向量，得到Src的向量
+		avgList(PATH+"Feature_Src\\Src_Description.txt.parsed.clr", PATH+"Vector\\2223_Win8_L100_SrcDesc_vector.txt",
+				PATH+"Vector\\SrcDescAvg_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdSrc.txt",PATH+"Vector\\2223_Win8_L100_SrcDescAvg_vector.txt",
+				PATH+"Feature_Src\\SrcDescAvgVec_feature.txt",false);
+		//将Src描述分词，从Baike词向量文件中获取描述词的向量，得到Src的向量
+		avgList(PATH+"Feature_Src\\Src_Description.txt.parsed.clr","D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_SrcDescAvg_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdSrc.txt",PATH+"Vector\\SrcDescAvg_Baike_vector.txt",
+				PATH+"Feature_Src\\Baike_SrcDescAvgVec_feature.txt",false);
+
+		//将User描述分词，利用分词后的文件训练得到描述词的向量，得到VUser的向量
+		avgList(PATH+"Feature_UserInfo\\User_Description.txt.parsed.clr", PATH+"Vector\\2223_Win8_L100_UserDesc_vector.txt",
+				PATH+"Vector\\2223_Win8_L100_UserDescAvg_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends.txt",PATH+"Vector\\2223_Win8_L100_UserDescAvg_vector.txt",
+				PATH+"Feature_Relation\\FriDescAvgVec_feature.txt",false);
+		//将User描述分词，从Baike词向量文件中获取描述词的向量，得到Src的向量
+		avgList(PATH+"Feature_Relation\\User_Description.txt.parsed.clr", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_UserDescAvg_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdFriends.txt",PATH+"Vector\\UserDescAvg_Baike_vector.txt",
+				PATH+"Feature_Relation\\Baike_FriDescAvgVec_feature.txt",false);
+
+		//将VUser描述分词，利用分词后的文件训练得到描述词的向量，得到VUser的向量
+		avgList(PATH+"Feature_UserInfo\\VUser_Description.txt.parsed.clr", PATH+"Vector\\2223_Win8_L100_VUserDesc_vector.txt",
+				PATH+"Vector\\2223_Win8_L100_VUserDescAvg_vector.txt");
+		avgVecForUser(PATH+"Feature_UserInfo\\UserIdVFriends.txt",PATH+"Vector\\2223_Win8_L100_VUserDescAvg_vector.txt",
+				PATH+"Feature_Relation\\VFriDescAvgVec_feature.txt",false);
+		//将VUser描述分词，从Baike词向量文件中获取描述词的向量，得到Src的向量
+		avgList(PATH+"Feature_Relation\\VUser_Description.txt.parsed.clr", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+						PATH+"Vector\\Baike_VUserDescAvg_vector.txt");
+				avgVec(PATH+"Feature_UserInfo\\UserIdVFriends.txt",PATH+"Vector\\VUserDescAvg_Baike_vector.txt",
+						PATH+"Feature_Relation\\Baike_VFriDescAvgVec_feature.txt",false);*/
+		/*================================================================================================================*/
+		/*//手动生成各类别的种子类别词，从Baike词向量文件中获取类别词的向量
+		avgList(PATH+"Config\\Dict_SrcType.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_SrcType_vector.txt");
+		avgList(PATH+"Config\\Dict_SrcNewType.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_SrcNewType_vector.txt");
+		avgList(PATH+"Config\\Dict_UserType.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_UserType_vector.txt");
+		avgList(PATH+"Config\\Dict_UserNewType.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_UserNewType_vector.txt");
+
+		//手动生成各类别的种子类别词，经过相似度计算拓展后，从Baike词向量文件中获取类别词的向量
+		avgList(PATH+"Config\\Dict_SrcType_BaiKeExpand25.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_SrcType_BaiKeExpand25_vector.txt");
+		avgList(PATH+"Config\\Dict_SrcNewType_BaiKeExpand25.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_SrcNewType_BaiKeExpand25_vector.txt");
+		avgList(PATH+"Config\\Dict_UserType_BaiKeExpand25.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_UserType_BaiKeExpand25_vector.txt");	
+		avgList(PATH+"Config\\Dict_UserNewType_BaiKeExpand25.txt", "D:\\Project_DataMinning\\DataSource\\BaikeVector\\allBaikeFc_100_vector.txt",
+				PATH+"Vector\\Baike_Dict_UserNewType_BaiKeExpand25_vector.txt");*/

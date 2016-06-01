@@ -23,14 +23,14 @@ public class StatUserInfo {
 
 		//根据filename统计uids中用户的item数量的分布情况
 		Set<String> uids = new HashSet<String>(2000);
-		GetInfo.getSet(PATH+"UserID_Age\\1_old2_new.txt", uids);
-		/*getDistribution(uids, PATH+"UserInfo0.txt","friendsCount");
+		GetInfo.getSet(PATH+"UserID_Gender\\2_newest_unequal.txt", uids);
+		getDistribution(uids, PATH+"UserInfo0.txt","friendsCount");
 		getDistribution(uids, PATH+"UserInfo0.txt","followersCount");
 		getDistribution(uids, PATH+"UserInfo0.txt","statusesCount");
-		getDistributionOfTag(uids, PATH+"UserInfo0.txt","tags");//标签数
-*/	
+		//getDistributionOfTag(uids, PATH+"UserInfo0.txt","tags");//标签数
+
 		//统计用户已经爬取的微博数分布
-		getDistribution(uids,PATH+"WeibosCon\\");
+		getDistribution(uids,PATH+"WeibosCon0\\");
 
 		//获取filename中黄V用户微博数小于等于WBNUM，粉丝数和好友数大于等于FRINUM的ID
 		/*getUserID(PATH+"UserInfo1.txt",1,10,600);
@@ -43,6 +43,9 @@ public class StatUserInfo {
 	private static void getDistribution(Set<String> uids, String dirname) throws IOException {
 		int tnum0=0,tnum1=0,tnum2=0,tnum3=0,tnum4=0,tnum5=0,tnum6=0,tnum7=0,tnum8=0,tnum9=0,tnum10=0,tnum11=0,tnum12=0;
 
+		long sum = 0;
+		int count = uids.size();
+		
 		int number = 0;
 		File srcf;
 		BufferedReader r;
@@ -50,6 +53,7 @@ public class StatUserInfo {
 			srcf = new File(dirname+id+".txt");
 			if(!srcf.exists()){
 				System.out.println(id);
+				tnum0 ++;
 				continue;
 			}
 			r = new BufferedReader(new FileReader(srcf));
@@ -57,6 +61,7 @@ public class StatUserInfo {
 			while(r.readLine()!=null){
 				number++;
 			}
+			sum+=number;
 			if ( number == 0 )  tnum0 ++;
 			else if ( (number >=1 ) && (number < 50) )  tnum1 ++;
 			else if ( (number >=50 ) && (number < 100) )  tnum2 ++;
@@ -71,7 +76,7 @@ public class StatUserInfo {
 			else if ( (number >=900 ) && (number < 1000) ) tnum11 ++;
 			else tnum12 ++;
 		}
-
+		System.out.println("avg = " + (sum/(float)count));
 		printResult(tnum0,tnum1,tnum2,tnum3,tnum4,tnum5,tnum6,tnum7,tnum8,tnum9,tnum10,tnum11,tnum12);
 	}
 
@@ -80,6 +85,8 @@ public class StatUserInfo {
 		File srcf = new File(filename);
 		BufferedReader r = new BufferedReader(new FileReader(srcf));
 		String line = "";
+		long sum = 0;
+		int count = uids.size();
 		int tnum0=0,tnum1=0,tnum2=0,tnum3=0,tnum4=0,tnum5=0,tnum6=0,tnum7=0,tnum8=0,tnum9=0,tnum10=0,tnum11=0,tnum12=0;
 		while((line = r.readLine())!=null){
 			JSONObject json = JSONObject.fromObject(line);
@@ -91,6 +98,8 @@ public class StatUserInfo {
 			if(statusesCount>4)continue;*/
 			
 			int number = json.getInt(item);
+			sum+=number;
+			//System.out.print(sum+"\t");
 			if ( number == 0 )  tnum0 ++;
 			else if ( (number >=1 ) && (number < 50) )  tnum1 ++;
 			else if ( (number >=50 ) && (number < 100) )  tnum2 ++;
@@ -106,6 +115,7 @@ public class StatUserInfo {
 			else tnum12 ++;
 		}
 		r.close();
+		System.out.println("avg = " + (sum/(float)count));
 		printResult(tnum0,tnum1,tnum2,tnum3,tnum4,tnum5,tnum6,tnum7,tnum8,tnum9,tnum10,tnum11,tnum12);
 	}
 
